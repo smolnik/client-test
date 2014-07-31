@@ -17,7 +17,7 @@ public class DetectionClient {
         Client client = ClientBuilder.newClient();
         Entity<DetectionRequest> request = Entity.json(new DetectionRequest("myfolder/adam-smolnik.png"));
         System.out.println(Entity.json(request).toString());
-        Response response = client.target("http://localhost:9090/detection-service/ds/detect").request().post(request);
+        Response response = client.target("http://localhost:8080/detection-service/ds/detect").request().post(request);
         DetectionResponse responseObject = response.readEntity(DetectionResponse.class);
         System.out.println(responseObject);
     }
