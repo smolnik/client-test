@@ -15,7 +15,6 @@ public class NotificationClient {
     public static void main(String[] args) throws Exception {
         Client client = ClientBuilder.newClient();
         Entity<NotificationRequest> request = Entity.json(new NotificationRequest("my first message"));
-        System.out.println(Entity.json(request).toString());
         Response response = client.target("http://localhost:8080/notification-service/ns/send").request().post(request);
         System.out.println(response.getStatus());
     }

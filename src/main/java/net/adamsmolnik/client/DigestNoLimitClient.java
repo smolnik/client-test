@@ -15,9 +15,8 @@ public class DigestNoLimitClient {
 
     public static void main(String[] args) throws Exception {
         Client client = ClientBuilder.newClient();
-        Entity<DigestRequest> request = Entity.json(new DigestRequest("SHA-256", "largefiles/file_sizedOf200000000"));
-        System.out.println(Entity.json(request).toString());
-        Response response = client.target("http://digest.adamsmolnik.com/digest-service-no-limit/ds/digest").request().post(request);
+        Entity<DigestRequest> request = Entity.json(new DigestRequest("SHA-256", "largefiles/file_sizedOf100000000"));
+        Response response = client.target("http://54.165.157.23/digest-service-no-limit/ds/digest").request().post(request);
         DigestResponse responseObject = response.readEntity(DigestResponse.class);
         System.out.println(responseObject);
     }
