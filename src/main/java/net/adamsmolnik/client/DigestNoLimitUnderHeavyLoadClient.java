@@ -23,14 +23,10 @@ public class DigestNoLimitUnderHeavyLoadClient {
         try {
             es = Executors.newFixedThreadPool(50);
             for (int i = 0; i < 1000; i++) {
-                es.submit(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        Response response = client.target("http://54.85.218.156/digest-service-no-limit/ds/digest").request().post(request);
-                        DigestResponse responseObject = response.readEntity(DigestResponse.class);
-                        System.out.println(responseObject);
-                    }
+                es.submit(() -> {
+                    Response response = client.target("http://54.85.218.156/digest-service-no-limit/ds/digest").request().post(request);
+                    DigestResponse responseObject = response.readEntity(DigestResponse.class);
+                    System.out.println(responseObject);
                 });
                 TimeUnit.MILLISECONDS.sleep(500);
             }
