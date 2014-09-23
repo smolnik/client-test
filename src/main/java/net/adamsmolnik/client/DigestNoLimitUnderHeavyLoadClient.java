@@ -18,17 +18,19 @@ public class DigestNoLimitUnderHeavyLoadClient {
 
     public static void main(String[] args) throws Exception {
         final Client client = ClientBuilder.newClient();
-        final Entity<DigestRequest> request = Entity.json(new DigestRequest("SHA-256", "largefiles/file_sizedOf100000000"));
+        final Entity<DigestRequest> request = Entity.json(new DigestRequest("SHA-256", "largefiles/file_sizedOf10000000"));
         ExecutorService es = null;
         try {
-            es = Executors.newFixedThreadPool(50);
-            for (int i = 0; i < 1000; i++) {
+            es = Executors.newFixedThreadPool(10);
+            for (int i = 0; i < 2000; i++) {
                 es.submit(() -> {
-                    Response response = client.target("http://54.85.218.156/digest-service-no-limit/ds/digest").request().post(request);
+                    Response response = client
+                            .target("http://student098-elb-2093092545.us-east-1.elb.amazonaws.com/digest-service-no-limit/ds/digest").request()
+                            .post(request);
                     DigestResponse responseObject = response.readEntity(DigestResponse.class);
                     System.out.println(responseObject);
                 });
-                TimeUnit.MILLISECONDS.sleep(500);
+                TimeUnit.MILLISECONDS.sleep(300);
             }
             TimeUnit.MINUTES.sleep(3);
         } finally {
